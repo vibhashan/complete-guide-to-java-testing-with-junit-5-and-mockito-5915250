@@ -4,53 +4,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TaskManagerTest {
 
+  private static TaskManager underTest;
+  private Task task;
+
+  @BeforeEach
+  void setUp() {
+    underTest = new TaskManager();
+    task = new Task("Read a book");
+    assertEquals(0, underTest.count());
+  }
+
   @Test
   public void addTask() {
-    TaskManager taskManger = new TaskManager();
-    Task task = new Task("Pick up dry cleaning");
+    underTest.add(task);
 
-    taskManger.add(task);
-
-    assertTrue(taskManger.exists(task.getId()));
+    assertTrue(underTest.exists(task.getId()));
+    assertEquals(1, underTest.count());
   }
 
   @Test
   public void addTask_duplicateTasks() {
-    TaskManager taskManager = new TaskManager();
-    Task task1 = new Task("Clean kitchen");
     Task task2 = new Task("Do laundry");
 
-    taskManager.add(task1);
-    taskManager.add(task2);
-    assertTrue(taskManager.exists(task1.getId()));
-    assertTrue(taskManager.exists(task2.getId()));
-    assertEquals(2, taskManager.count());
+    underTest.add(task);
+    underTest.add(task2);
+    assertTrue(underTest.exists(task.getId()));
+    assertTrue(underTest.exists(task2.getId()));
+    assertEquals(2, underTest.count());
   }
 
   @Test
   public void removeTask() {
-    TaskManager taskManager = new TaskManager();
-    Task task = new Task("Make presentation");
-    taskManager.add(task);
-    int preTaskCount = taskManager.count();
+    underTest.add(task);
+    int preTaskCount = underTest.count();
 
-    taskManager.remove(task.getId());
+    underTest.remove(task.getId());
 
-    assertFalse(taskManager.exists(task.getId()));
-    assertEquals(preTaskCount - 1, taskManager.count());
+    assertFalse(underTest.exists(task.getId()));
+    assertEquals(preTaskCount - 1, underTest.count());
   }
 
   @Test
   public void getTask() {
-    TaskManager taskManager = new TaskManager();
-    Task task = new Task("Buy new book");
-    taskManager.add(task);
+    underTest.add(task);
 
-    Task result = taskManager.get(task.getId());
+    Task result = underTest.get(task.getId());
 
     assertEquals(task, result);
   }
