@@ -15,7 +15,7 @@ public class CalculatorTest {
 
   @Test
   public void addition() {
-    int result = underTest.divide(2, 3);
+    int result = underTest.add(2, 3);
     assertEquals(5, result, "Verify basic addition, result should be five");
   }
 
@@ -37,14 +37,12 @@ public class CalculatorTest {
     assertFalse(result, "The number should not be even");
   }
 
-  // assertNull
-  // assertNotNull
   @Test
   public void divideByZero() {
     Integer result = null;
     try {
       result = underTest.divide(6, 0);
-    } catch (ArithmeticException e) {
+    } catch (IllegalArgumentException e) {
       // Division by zero occurred
     }
     assertNull(result, "Division by zero should result in null");
