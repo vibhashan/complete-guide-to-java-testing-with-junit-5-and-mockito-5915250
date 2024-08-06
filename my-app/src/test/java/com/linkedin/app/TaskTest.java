@@ -18,6 +18,12 @@ public class TaskTest {
     Task task = new Task("Read a book");
     String result = task.getDescription();
     assertEquals("Read a book", result);
-    
+  }
+
+  @Test
+  public void setDescription() {
+    Task task = new Task("Pack for trip");
+    task.setDescription("Pack for summer trip");
+    assertEquals("Pack for summer trip", task.getDescription());
   }
 }
