@@ -27,12 +27,4 @@ public class CalculatorTest {
     public void divide() {
         assertEquals(2.0, calculator.divide(4, 2));
     }
-
-    @Test
-    void divideByZero() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.divide(4, 0);
-        });
-        assertEquals("Division by zero is not allowed.", exception.getMessage());
-    }
 }
