@@ -23,7 +23,8 @@
 	},
 	"remoteUser": "vscode",
 	"remoteEnv": {
-		"ENVIRONMENT": "production"
+		"ENVIRONMENT": "production",
+		"DB_URL": "localhost"
 	},
 	"onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc" //Set Terminal Prompt to $
 }
