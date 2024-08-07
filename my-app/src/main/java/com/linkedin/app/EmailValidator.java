@@ -9,6 +9,10 @@ public class EmailValidator {
 
     String[] parts = email.split("@");
 
+    if (parts.length != 2) {
+      return false;
+    }
+
     String localPart = parts[0];
     String domainPart = parts[1];
 
