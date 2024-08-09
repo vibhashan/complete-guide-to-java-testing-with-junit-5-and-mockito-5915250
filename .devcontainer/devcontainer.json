@@ -22,11 +22,6 @@
 		}
 	},
 	"remoteUser": "vscode",
-	"remoteEnv": {
-		"ENVIRONMENT": "production",
-		"DB_URL": "localhost",
-		"WEATHER_SERVICE_API_KEY": "7b26c92417fd3678d52eac12dc870222"
-	},
 	"onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc" //Set Terminal Prompt to $
 }
 // DevContainer Reference: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
