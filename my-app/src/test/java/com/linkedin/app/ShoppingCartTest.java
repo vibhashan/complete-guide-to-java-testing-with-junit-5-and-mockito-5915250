@@ -10,26 +10,25 @@ class ShoppingCartTest {
 	private static ShoppingCart cart;
 
 	@BeforeEach
-	void beforeEach() {
+	void setUp() {
 		cart = new ShoppingCart();
-	}
-
-	@AfterEach
-	void afterEach() {
-		cart = null;
+		cart.addItem("Product A", 2);
 	}
 
 	@Test
 	void addItem() {
-		cart.addItem("Product A", 2);
-		cart.addItem("Product C", 3);
-		assertEquals(5, cart.getTotalItems());
+		cart.addItem("Product C", 4);
+		assertEquals(6, cart.getTotalItems());
 	}
 
 	@Test
 	void removeItem() {
-		cart.addItem("Product A", 2);
 		cart.removeItem("Product A", 1);
 		assertEquals(1, cart.getTotalItems());
+	}
+
+	@AfterEach
+	void teardown() {
+		cart = null;
 	}
 }
