@@ -1,15 +1,19 @@
 package com.linkedin.app;
 
 public class Calculator {
-    public static int add(int a, int b) {
-        return a + b;
-    }
 
-    public static int divide(int a, int b) {
-        return a / b;
-    }
+  public int add(int a, int b) {
+    return a + b;
+  }
 
-    public static boolean isEven(int a) {
-        return a % 2 == 0;
+  public int divide(int a, int b) {
+    if (b == 0) {
+      throw new IllegalArgumentException("Cannot divide by zero!");
     }
+    return a / b;
+  }
+
+  public boolean isEven(int n) {
+    return n % 2 == 0;
+  }
 }

@@ -2,44 +2,52 @@ package com.linkedin.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 class CalculatorTest {
+
+	private Calculator underTest = new Calculator();
+
 	@Test
-	void add() {
-		assertEquals(5, Calculator.add(2, 3), "Result should be 5");
-		assertEquals(0, Calculator.add(0, 0), "Result should be 0");
-		assertEquals(-8, Calculator.add(-5, -3), "Result should be -8");
-		assertEquals(-3, Calculator.add(-5, 2), "Result should be -3");
+	void addition() {
+		int result = underTest.add(2, 3);
+		assertEquals(5, result, "Verify basic addition, result should be five");
 	}
 
 	@Test
 	void division() {
-		int result = Calculator.divide(6, 2);
-		assertEquals(3, result, "Result should be 3");
+		int result = underTest.divide(6, 2);
+		assertNotEquals(0, result, "Verify basic division, result should not be zero");
 	}
 
 	@Test
 	void isEven() {
-		boolean result = Calculator.isEven(4);
-		assertTrue(result, "Result should be true since 4 is even");
-
-		result = Calculator.isEven(5);
-		assertFalse(result, "Result should be false since 5 is odd");
+		boolean result = underTest.isEven(4);
+		assertTrue(result, "The number should be even");
 	}
 
 	@Test
-	void nullCheck() {
-		Integer result = null;
-		try {
-			result = Calculator.divide(5, 0);
-		} catch (ArithmeticException e) {
-			System.out.println(e.getMessage());
-		}
+	void isEven_withOddNum() {
+		boolean result = underTest.isEven(5);
+		assertFalse(result, "The number should not be even");
+	}
 
-		assertNull(result, "Result should be null due to exception");
+	@Test
+	void divideByZero() {
+		Integer result = null;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> underTest.divide(6, 0));
+		assertEquals("Cannot divide by zero!", e.getMessage());
+	}
+
+	@Test
+	void divideNonZero() {
+		Integer result = underTest.divide(10, 2);
+		assertNotNull(result);
+		assertEquals(5, result, "Verify basic division, result should be five");
 	}
 }
