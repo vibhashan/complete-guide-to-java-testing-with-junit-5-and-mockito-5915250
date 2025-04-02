@@ -17,6 +17,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
+<<<<<<< HEAD
 	<dependencies>
 		<!--
 		https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
@@ -42,6 +43,22 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+=======
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.10.3</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+>>>>>>> 98c3542ee062624bc4b96e9fb18301fb22d44c7e
 
 	<build>
 		<plugins>
