@@ -1,22 +1,32 @@
 package com.linkedin.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class UserServiceTest {
+@ExtendWith(MockitoExtension.class) // Interoperability with Junit 5
+class UserServiceTest {
+  @Mock // New way of mocking
+  private UserRepository userRepositoryMock;
+
+  @InjectMocks // Automatically injects mocks
+  private UserService underTest;
 
   @Test
-  public void findUserById() {
-    UserRepository userRepositoryMock = mock(UserRepository.class);
+  void findUserById() {
+    // Option 1: Traditional mockito mocking
+    // UserRepository userRepositoryMock = mock(UserRepository.class);
 
     User mockUser = new User("1", "John Doe");
-    when(userRepositoryMock.findById("1")).thenReturn(mockUser);
+    when(userRepositoryMock.findById("1")).thenReturn(mockUser); // Specify mock behavior
 
-    UserService underTest = new UserService(userRepositoryMock);
+    // UserService underTest = new UserService(userRepositoryMock);
 
     User result = underTest.findUserById("1");
 
