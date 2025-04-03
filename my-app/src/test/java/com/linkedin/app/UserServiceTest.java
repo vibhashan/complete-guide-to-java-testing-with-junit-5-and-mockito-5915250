@@ -1,6 +1,7 @@
 package com.linkedin.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,5 +32,11 @@ public class UserServiceTest {
 
     assertEquals(mockUser, result);
     verify(userRepositoryMock).findById("1");
+  }
+
+  @Test
+  void findUserByIdNonExisting() {
+    when(userRepositoryMock.findById("2")).thenReturn(null); // Specify mocking behavior (also know as "stubbing").
+    assertNull(underTest.findUserById("2"));
   }
 }
