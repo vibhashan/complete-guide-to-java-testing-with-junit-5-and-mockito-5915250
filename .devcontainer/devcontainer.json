@@ -24,6 +24,8 @@
 	},
 	"remoteUser": "vscode",
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 	"remoteEnv": {
 <<<<<<< HEAD
 		"ENVIRONMENT": "development"
@@ -33,6 +35,10 @@
 	},
 =======
 >>>>>>> 0373b6e9ee626db94ddadcad52dc0410e1536f4f
+=======
+>>>>>>> bc17eb72ac1b02373b93c46ceb96714769e7706a
+=======
+>>>>>>> 41941b2d8808874ddc9e000c9b175851f6e200d0
 	"onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc" //Set Terminal Prompt to $
 }
 
