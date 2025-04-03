@@ -14,8 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-  // mock() vs @Mock
-
   @Mock
   private UserRepository userRepositoryMock;
 
@@ -32,6 +30,13 @@ public class UserServiceTest {
 
     assertEquals(mockUser, result);
     verify(userRepositoryMock).findById("1");
+  }
+
+  @Test
+  public void findUserById_nonExistent() {
+
+    when(userRepositoryMock.findById("3")).thenReturn(null);
+    assertNull(underTest.findUserById("3"));
   }
 
   @Test
