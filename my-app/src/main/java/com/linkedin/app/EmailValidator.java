@@ -2,44 +2,48 @@ package com.linkedin.app;
 
 public class EmailValidator {
 
-  public boolean isValid(String email) {
-    if (email == null || email.isEmpty()) {
-      return false;
-    }
+	public boolean isValid(String email) {
+		if (email == null || email.isEmpty()) {
+			return false;
+		}
 
-    String[] parts = email.split("@");
+		String[] parts = email.split("@");
 
-    String localPart = parts[0];
-    String domainPart = parts[1];
+		if (parts.length != 2) {
+			return false;
+		}
 
-    if (localPart.isEmpty() || domainPart.isEmpty()) {
-      return false;
-    }
+		String localPart = parts[0];
+		String domainPart = parts[1];
 
-    if (!domainPart.contains(".")) {
-      return false;
-    }
+		if (localPart.isEmpty() || domainPart.isEmpty()) {
+			return false;
+		}
 
-    String[] domainParts = domainPart.split("\\.");
-    if (domainParts.length < 2) {
-      return false;
-    }
+		if (!domainPart.contains(".")) {
+			return false;
+		}
 
-    String domainName = domainParts[0];
-    String topLevelDomain = domainParts[1];
+		String[] domainParts = domainPart.split("\\.");
+		if (domainParts.length < 2) {
+			return false;
+		}
 
-    if (domainName.isEmpty() || !domainName.matches("[a-zA-Z0-9]+")) {
-      return false;
-    }
+		String domainName = domainParts[0];
+		String topLevelDomain = domainParts[1];
 
-    if (topLevelDomain.isEmpty() || !topLevelDomain.matches("[a-zA-Z]+")) {
-      return false;
-    }
+		if (domainName.isEmpty() || !domainName.matches("[a-zA-Z0-9]+")) {
+			return false;
+		}
 
-    if (!localPart.matches("[a-zA-Z0-9._-]+")) {
-      return false;
-    }
+		if (topLevelDomain.isEmpty() || !topLevelDomain.matches("[a-zA-Z]+")) {
+			return false;
+		}
 
-    return true;
-  }
+		if (!localPart.matches("[a-zA-Z0-9._-]+")) {
+			return false;
+		}
+
+		return true;
+	}
 }
