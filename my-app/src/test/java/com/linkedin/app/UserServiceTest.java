@@ -1,6 +1,7 @@
 package com.linkedin.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,27 +11,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class) // Interoperability with Junit 5
-class UserServiceTest {
-  @Mock // New way of mocking
+@ExtendWith(MockitoExtension.class)
+public class UserServiceTest {
+
+  // mock() vs @Mock
+
+  @Mock
   private UserRepository userRepositoryMock;
 
-  @InjectMocks // Automatically injects mocks
+  @InjectMocks
   private UserService underTest;
 
   @Test
-  void findUserById() {
-    // Option 1: Traditional mockito mocking
-    // UserRepository userRepositoryMock = mock(UserRepository.class);
+  public void findUserById() {
 
     User mockUser = new User("1", "John Doe");
-    when(userRepositoryMock.findById("1")).thenReturn(mockUser); // Specify mock behavior
-
-    // UserService underTest = new UserService(userRepositoryMock);
+    when(userRepositoryMock.findById("1")).thenReturn(mockUser);
 
     User result = underTest.findUserById("1");
 
     assertEquals(mockUser, result);
     verify(userRepositoryMock).findById("1");
+  }
+
+  @Test
+  void findUserByIdNonExisting() {
+    when(userRepositoryMock.findById("2")).thenReturn(null); // Specify mocking behavior (also know as "stubbing").
+    assertNull(underTest.findUserById("2"));
   }
 }
