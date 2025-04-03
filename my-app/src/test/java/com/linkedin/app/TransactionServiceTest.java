@@ -26,7 +26,6 @@ class TransactionServiceTest {
 
     underTest.processTransaction(transaction);
 
-    // Using argument matchers.
     verify(loggerService).logMessage(eq("TX123"), eq(10.50),
         any(Timestamp.class));
   }
