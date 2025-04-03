@@ -6,58 +6,46 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-public class FileProcessorTest {
+class FileProcessorTest {
+	@TempDir
+	private Path tempDir;
 
-    private static final Path INPUT_DIR = Paths.get("tempInputDir");
-    private static final Path OUTPUT_DIR = Paths.get("tempOutputDir");
+	private Path inputDir;
+	private Path outputDir;
 
-    @BeforeEach
-    void setUp() throws IOException {
-        Files.createDirectories(INPUT_DIR);
-        Files.createDirectories(OUTPUT_DIR);
-    }
+	@BeforeEach
+	void setUp() throws IOException {
+		inputDir = tempDir.resolve("input");
+		outputDir = tempDir.resolve("output");
 
-    @AfterEach
-    void tearDown() throws IOException {
-        deleteDirectoryRecursively(INPUT_DIR);
-        deleteDirectoryRecursively(OUTPUT_DIR);
-    }
+		Files.createDirectory(inputDir);
+		Files.createDirectory(outputDir);
+	}
 
-    private void deleteDirectoryRecursively(Path path) throws IOException {
-        if (Files.exists(path)) {
-            Files.walk(path)
-                    .map(Path::toFile)
-                    .forEach(file -> file.delete());
-            Files.deleteIfExists(path);
-        }
-    }
+	@Test
+	void convertFilesToUpperCase() throws IOException {
+		Path inputFile = inputDir.resolve("sample.txt");
+		Files.writeString(inputFile, "Hello, JUnit 5!");
 
-    @Test
-    void convertFilesToUpperCase() throws IOException {
-        Path inputFile = INPUT_DIR.resolve("sample.txt");
-        Files.writeString(inputFile, "Hello, JUnit 5!");
+		FileProcessor fileProcessor = new FileProcessor();
+		fileProcessor.convertFilesToUpperCase(inputDir, outputDir);
 
-        FileProcessor fileProcessor = new FileProcessor();
-        fileProcessor.convertFilesToUpperCase(INPUT_DIR, OUTPUT_DIR);
+		Path outputFile = outputDir.resolve("sample.txt");
+		assertTrue(Files.exists(outputFile));
+		assertEquals("HELLO, JUNIT 5!", Files.readString(outputFile));
+	}
 
-        Path outputFile = OUTPUT_DIR.resolve("sample.txt");
-        assertTrue(Files.exists(outputFile));
-        assertEquals("HELLO, JUNIT 5!", Files.readString(outputFile));
-    }
+	@Test
+	void convertFilesToUpperCaseWithEmptyInputDir() throws IOException {
+		FileProcessor fileProcessor = new FileProcessor();
+		fileProcessor.convertFilesToUpperCase(inputDir, outputDir);
 
-    @Test
-    void convertFilesToUpperCaseWithEmptyInputDir() throws IOException {
-        FileProcessor fileProcessor = new FileProcessor();
-
-        fileProcessor.convertFilesToUpperCase(INPUT_DIR, OUTPUT_DIR);
-
-        assertTrue(Files.isDirectory(OUTPUT_DIR));
-        assertEquals(0, Files.list(OUTPUT_DIR).count());
-    }
+		assertTrue(Files.isDirectory(outputDir));
+		assertEquals(0, Files.list(outputDir).count());
+	}
 }
