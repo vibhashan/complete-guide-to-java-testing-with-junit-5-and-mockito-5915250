@@ -26,6 +26,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"remoteEnv": {
 <<<<<<< HEAD
 		"ENVIRONMENT": "development"
@@ -39,6 +40,8 @@
 >>>>>>> bc17eb72ac1b02373b93c46ceb96714769e7706a
 =======
 >>>>>>> 41941b2d8808874ddc9e000c9b175851f6e200d0
+=======
+>>>>>>> 485f992ca661bf2e648c257164fdb8c41c3765f6
 	"onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc" //Set Terminal Prompt to $
 }
 
