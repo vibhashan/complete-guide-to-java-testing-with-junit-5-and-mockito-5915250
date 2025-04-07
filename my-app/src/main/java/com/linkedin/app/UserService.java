@@ -1,15 +1,15 @@
 package com.linkedin.app;
 
-import java.sql.Timestamp;
+import java.util.concurrent.CompletableFuture;
 
 public class UserService {
-  private NotificationService notificationService;
+  private final UserRepository userRepository;
 
-  public UserService(NotificationService notificationService) {
-    this.notificationService = notificationService;
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
 
-  public void registerUser(String username, String email) {
-    notificationService.send("Welcome " + username, email, new Timestamp(System.currentTimeMillis()));
+  public CompletableFuture<User> getUserById(String userId) {
+    return CompletableFuture.supplyAsync(() -> userRepository.findById(userId));
   }
 }

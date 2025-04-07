@@ -1,16 +1,12 @@
 package com.linkedin.app;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
-
-import java.sql.Timestamp;
-import java.util.List;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,48 +15,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class UserServiceTest {
 
     @Mock
-    private NotificationService notificationService;
+    private UserRepository userRepository;
 
     @InjectMocks
     private UserService underTest;
 
-    @Captor
-    private ArgumentCaptor<Timestamp> timestampCaptor;
-
     @Test
-    void registerUser() {
-        String username = "john_doe";
-        String email = "john@example.com";
+    void getUserById() throws Exception {
+        User mockUser = new User("123", "John Doe");
 
-        underTest.registerUser(username, email);
+        when(userRepository.findById("123")).thenReturn(mockUser);
 
-        verify(notificationService).send(eq("Welcome " + username),
-                eq(email), timestampCaptor.capture());
+        User user = underTest.getUserById("123").get();
 
-        assertTrue(areWithinSeconds(new Timestamp(System.currentTimeMillis()),
-                timestampCaptor.getValue(), 2));
-    }
+        assertNotNull(user);
+        assertEquals("123", user.getId());
+        assertEquals("John Doe", user.getName());
 
-    @Test
-    void registerMultipleUsers() {
-        List<String> usernames = List.of("johndoe", "maryjane", "bobsmith");
-        List<String> emails = List.of("john@example.com", "mary@example.com", "bob@example.com");
-
-        for (int i = 0; i < 3; i++) {
-            underTest.registerUser(usernames.get(i), emails.get(i));
-            verify(notificationService).send(eq("Welcome " + usernames.get(i)), eq(emails.get(i)),
-                    timestampCaptor.capture());
-        }
-
-        timestampCaptor.getAllValues()
-                .forEach(timestamp -> assertTrue(areWithinSeconds(new Timestamp(System.currentTimeMillis()),
-                        timestamp, 2)));
-
-    }
-
-    private boolean areWithinSeconds(Timestamp timestamp1, Timestamp timestamp2, int seconds) {
-        long differenceInMillis = Math.abs(timestamp1.getTime() - timestamp2.getTime());
-        long differenceInSeconds = differenceInMillis / 1000;
-        return differenceInSeconds <= seconds;
+        verify(userRepository).findById("123");
     }
 }
