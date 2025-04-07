@@ -1,13 +1,16 @@
 package com.linkedin.app;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
+<<<<<<< HEAD
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+import java.sql.Timestamp;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,29 +18,32 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private UserService underTest;
 
-    @Mock
-    private UserRepository userRepository;
-
-    private static final String USERNAME_1 = "Alice";
-    private static final String USERNAME_2 = "Bob";
+    @Captor
+    private ArgumentCaptor<Timestamp> timestampCaptor;
 
     @Test
-    void createUser() {
+    public void registerUser() {
+        String username = "john_doe";
+        String email = "john@example.com";
 
-        underTest.createUser(USERNAME_1);
-        verify(userRepository).save(USERNAME_1);
-        verify(userRepository, never()).delete(USERNAME_1);
+        underTest.registerUser(username, email);
+
+        verify(notificationService).send(eq("Welcome " + username),
+                eq(email), timestampCaptor.capture());
+
+        assertTrue(areWithinSeconds(new Timestamp(System.currentTimeMillis()),
+                timestampCaptor.getValue(), 2));
     }
 
-    @Test
-    void createMultipleUsers() {
-        underTest.createUser(USERNAME_1);
-        underTest.createUser(USERNAME_2);
-
-        verify(userRepository, times(2)).save(anyString());
-        verifyNoMoreInteractions(userRepository);
+    private boolean areWithinSeconds(Timestamp timestamp1, Timestamp timestamp2, int seconds) {
+        long differenceInMillis = Math.abs(timestamp1.getTime() - timestamp2.getTime());
+        long differenceInSeconds = differenceInMillis / 1000;
+        return differenceInSeconds <= seconds;
     }
 }

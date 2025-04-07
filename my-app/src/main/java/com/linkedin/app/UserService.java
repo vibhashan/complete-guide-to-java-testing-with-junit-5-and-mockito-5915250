@@ -1,21 +1,15 @@
 package com.linkedin.app;
 
-class UserService {
-  private final UserRepository userRepository;
+import java.sql.Timestamp;
 
-  public UserService(UserRepository userRepository) {
-    this.userRepository = userRepository;
+public class UserService {
+  private NotificationService notificationService;
+
+  public UserService(NotificationService notificationService) {
+    this.notificationService = notificationService;
   }
 
-  public void createUser(String username) {
-    userRepository.save(username);
-  }
-
-  public void updateUser(String username) {
-    userRepository.update(username);
-  }
-
-  public void deleteUser(String username) {
-    userRepository.delete(username);
+  public void registerUser(String username, String email) {
+    notificationService.send("Welcome " + username, email, new Timestamp(System.currentTimeMillis()));
   }
 }
