@@ -16,39 +16,39 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
-    private static final User USER = new User("John Doe", "test@gmail");
-    @Mock
-    UserRepository userRepoMock;
+  private static final User USER = new User("John Doe", "test@gmail");
+  @Mock
+  UserRepository userRepoMock;
 
-    @InjectMocks
-    UserService userService;
+  @InjectMocks
+  UserService userService;
 
-    @Test
-    void saveUser() {
-        when(userRepoMock.save(USER)).thenReturn(USER);
+  @Test
+  void saveUser() {
+    when(userRepoMock.save(USER)).thenReturn(USER);
 
-        User savedUser = userService.saveUser(USER);
+    User savedUser = userService.saveUser(USER);
 
-        assertEquals(USER, savedUser);
-        verify(userRepoMock).save(USER);
-    }
+    assertEquals(USER, savedUser);
+    verify(userRepoMock).save(USER);
+  }
 
-    @Test
-    void getExistingUserById() {
-        when(userRepoMock.findById(USER.getId())).thenReturn(Optional.of(USER));
+  @Test
+  void getExistingUserById() {
+    when(userRepoMock.findById(USER.getId())).thenReturn(Optional.of(USER));
 
-        var foundUser = userService.getUserById(USER.getId());
+    var foundUser = userService.getUserById(USER.getId());
 
-        assertTrue(foundUser.isPresent());
-        assertEquals(USER, foundUser.get());
-    }
+    assertTrue(foundUser.isPresent());
+    assertEquals(USER, foundUser.get());
+  }
 
-    @Test
-    void getNonExistingUserById() {
-        when(userRepoMock.findById(99L)).thenReturn(null);
+  @Test
+  void getNonExistingUserById() {
+    when(userRepoMock.findById(99L)).thenReturn(null);
 
-        var foundUser = userService.getUserById(99L);
+    var foundUser = userService.getUserById(99L);
 
-        assertNull(foundUser);
-    }
+    assertNull(foundUser);
+  }
 }
