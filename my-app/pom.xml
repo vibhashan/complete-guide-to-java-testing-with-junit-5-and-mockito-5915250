@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
+		<version>3.4.4</version>
 		<relativePath />
 	</parent>
 
@@ -30,7 +30,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.10.3</version>
@@ -65,6 +65,13 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>5.12.0</version>
 			<scope>test</scope>
+		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>3.4.4</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -87,11 +94,6 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<!-- Exclude from test coverage -->
-							<!--<excludes>
-								<exclude>com/linkedin/app/test/**</exclude>
-								<exclude>com/linkedin/app/test/**</exclude>
-							</excludes>-->
 							<rules>
 								<rule>
 									<element>BUNDLE</element>
