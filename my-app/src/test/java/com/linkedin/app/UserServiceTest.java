@@ -1,11 +1,11 @@
 package com.linkedin.app;
 
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class UserServiceTest {
     private ArgumentCaptor<Timestamp> timestampCaptor;
 
     @Test
-    public void registerUser() {
+    void registerUser() {
         String username = "john_doe";
         String email = "john@example.com";
 
@@ -39,6 +39,23 @@ class UserServiceTest {
 
         assertTrue(areWithinSeconds(new Timestamp(System.currentTimeMillis()),
                 timestampCaptor.getValue(), 2));
+    }
+
+    @Test
+    void registerMultipleUsers() {
+        List<String> usernames = List.of("johndoe", "maryjane", "bobsmith");
+        List<String> emails = List.of("john@example.com", "mary@example.com", "bob@example.com");
+
+        for (int i = 0; i < 3; i++) {
+            underTest.registerUser(usernames.get(i), emails.get(i));
+            verify(notificationService).send(eq("Welcome " + usernames.get(i)), eq(emails.get(i)),
+                    timestampCaptor.capture());
+        }
+
+        timestampCaptor.getAllValues()
+                .forEach(timestamp -> assertTrue(areWithinSeconds(new Timestamp(System.currentTimeMillis()),
+                        timestamp, 2)));
+
     }
 
     private boolean areWithinSeconds(Timestamp timestamp1, Timestamp timestamp2, int seconds) {
