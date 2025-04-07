@@ -1,6 +1,7 @@
 package com.linkedin.app;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class DatabaseServiceTest {
-
+class DatabaseServiceTest {
     @Mock
     private DatabaseConnection dbConnectionMock;
 
@@ -18,7 +18,12 @@ public class DatabaseServiceTest {
     private DatabaseService underTest;
 
     @Test
-    public void databaseConnectionFailure() throws Exception {
+    void databaseConnectionFailure() throws Exception {
+        doThrow(DatabaseException.class).when(dbConnectionMock).getConnection(); // Stub the getConnection() method to
+                                                                                 // throw an exception.
+                                                                                 //
+                                                                                 //
+
         assertThrows(DatabaseException.class, () -> underTest.getData());
     }
 }
